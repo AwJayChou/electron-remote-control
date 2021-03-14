@@ -4,7 +4,7 @@ const pc = new window.RTCPeerConnection({})
 const dc = pc.createDataChannel('robotchannel', { reliable: false})
 const { play } = require('./video-stream')
 /**
- * data.createDataChannel
+ * data.createDataChannel 不通过服务端的传输
  */
 dc.onopen = function () {
     peer.on('robot', (type, data) => {
