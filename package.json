@@ -1,12 +1,16 @@
 {
-  "name": "electron-quick-start",
+  "name": "RemoteControl",
   "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main/windows/main.js",
   "scripts": {
-    "start": "electron ."
+    "start": "electron .",
+    "pack:mac": "NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --mac",
+    "pack:wi": "cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --win --ia32",
+    "pack:win": " cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --win --ia32",
+    "postinstall": "electron-builder install-app-deps"
   },
-  "repository": "https://github.com/electron/electron-quick-start",
+  "repository": "https://github.com/AwJayChou/electron-remote-control",
   "keywords": [
     "Electron",
     "quick",
@@ -14,13 +18,71 @@
     "tutorial",
     "demo"
   ],
-  "author": "GitHub",
+  "author": "jaychou",
   "license": "CC0-1.0",
   "devDependencies": {
-    "electron-rebuild": "^2.3.5"
+    "cross-env": "^7.0.3",
+    "electron-builder": "^22.10.5",
+    "electron": "^12.0.1",
+    "electron-builder-squirrel-windows": "^22.10.5"
   },
   "dependencies": {
+    "about-window": "^1.14.0",
     "vkey": "^1.0.1",
     "ws": "^7.4.4"
+  },
+  "build": {
+    "appId": "com.jay.remote",
+    "productName": "remoteControl",
+    "asar": false,
+    "directories": {
+      "buildResources": "resource",
+      "output": "release"
+    },
+    "copyright": "Copyright © 2020 dragon",
+    "mac": {
+      "target": [
+        "dmg",
+        "zip"
+      ],
+      "icon": "resources/icon.icns"
+    },
+    "dmg": {
+      "background": "resources/background.png",
+      "window": {
+        "width": 540,
+        "height": 380
+      },
+      "contents": [
+        {
+          "x": 410,
+          "y": 180,
+          "type": "link",
+          "path": "/Applications"
+        },
+        {
+          "x": 130,
+          "y": 180,
+          "type": "file"
+        }
+      ],
+      "iconSize": 128
+    },
+    "win": {
+      "icon": "resources/icon.ico",
+      "target": [
+        "squirrel",
+        "nsis"
+      ]
+    },
+    "nsis": {
+      "oneClick": false,
+      "language": "2052",
+      "perMachine": true,
+      "allowToChangeInstallationDirectory": true
+    },
+    "squirrelWindows": {
+      "iconUrl": "https://raw.githubusercontent.com/dengyaolong/geektime-electron/master/img/icon.ico"
+    }
   }
 }
