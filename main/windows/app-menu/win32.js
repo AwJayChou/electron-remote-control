@@ -5,7 +5,7 @@ const {create: createAboutWindow} = require('../about')
 
 let tray;
 app.whenReady().then(() => {
-    tray = new Tray(path.resolve(__dirname, './icon_win32.png'))
+    tray = new Tray(path.resolve(__dirname, './images/icon_win32.png'))
     const contextMenu = Menu.buildFromTemplate([
         { label: '打开' + app.name, click: showWindows},
         { label: '关于' + app.name, click: createAboutWindow},

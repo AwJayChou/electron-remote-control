@@ -1,11 +1,11 @@
 {
   "name": "RemoteControl",
-  "version": "2.0.0",
+  "version": "1.0.0",
   "description": "A minimal Electron application",
   "main": "main/windows/main.js",
   "scripts": {
     "start": "electron .",
-    "pack:mac": "cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --mac",
+    "pack:mac": "cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ rimraf release && electron-builder build --mac",
     "pack:wi": "cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --win --ia32",
     "pack:win": " cross-env NPM_CONFIG_ELECTRON_MIRROR=http://npm.taobao.org/mirrors/electron/ electron-builder build --win --ia32",
     "postinstall": "electron-builder install-app-deps"
@@ -28,6 +28,8 @@
   },
   "dependencies": {
     "about-window": "^1.14.0",
+    "electron-is-dev": "^2.0.0",
+    "electron-squirrel-startup": "^1.0.0",
     "vkey": "^1.0.1",
     "ws": "^7.4.4"
   },

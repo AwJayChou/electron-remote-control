@@ -1,6 +1,8 @@
-const { BrowserWindow, app, ipcMain } = require('electron')
-
+const { BrowserWindow, app, ipcMain, BrowserView } = require('electron')
+const isDev = require('electron-is-dev')
 const path = require('path')
+// 几行代码 windows下面的自动更新
+if (require('electron-squirrel-startup')) app.quit()
 let renderWin, win2
 let willQuitApp = false
 // window的一些方法 window.close() window.show() window.close()
@@ -12,6 +14,20 @@ function createRender() {
       nodeIntegration: true,
       preload: path.resolve(__dirname, '../../renderer/peer-control.js'),
     },
+  })
+//   let view = new BrowserView()
+//   renderWin.setBrowserView(view)
+//   view.setBounds({ x: 0, y: 0, width: 600, height: 480 })
+//   view.webContents.loadFile(
+//     path.resolve(__dirname, '../../renderPage/loading.html')
+//   )
+//   view.webContents.on('dom-ready', () => {
+//     console.log('show')
+//     renderWin.show()
+//   })
+  ipcMain.on('stop-loading-main', () => {
+    console.log('stop')
+    renderWin.removeBrowserView(view)
   })
   const url = path.resolve(__dirname, '../../renderPage/index.html')
   renderWin.webContents.openDevTools()
@@ -74,6 +90,19 @@ if (!gotTheLock) {
   app.on('second-instance', () => {
     showWindows()
   })
+  // 项目快要完全启动的时候
+  app.on('will-finish-launching', () => {
+    if (!isDev) {
+      require('./updater')
+    }
+    // setTimeout(() => {
+    //     require('./crash-reporter').init()
+    // }, 2 * 1000)
+    require('./crash-reporter').init()
+    // setTimeout(() => {
+    //   process.crash()
+    // })
+  })
   app.on('ready', () => {
     createRender()
     createMain()
@@ -84,7 +113,8 @@ if (!gotTheLock) {
     beforeAppClose()
   })
   app.on('activate', () => {
-      showWindows()
+    showWindows()
+    // process.crash()
   })
 }
 // 多实例启动

@@ -83,3 +83,7 @@ pc.onaddstream = (e) => {
 }
 
 window.setRemote = setRemote
+
+window.stopLoading = function () {
+    ipcRenderer.send('stop-loading-main')
+}
